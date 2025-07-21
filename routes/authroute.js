@@ -9,11 +9,11 @@ router.post("/signup", authcontroller.signup);
 router.post("/login", authcontroller.login);
 
 router.get('/profile', authenticateUser, authcontroller.getProfile);
-router.post('/profile', authenticateUser, authcontroller.updateProfile);
+router.post('/profile', authenticateUser, authcontroller.updateUserinfo);
 
 // Kullanıcı var mı diye kontrol et
 router.get('/me', authenticateUser, authcontroller.getMe);
-router.put('/update', authenticateUser, authcontroller.updateProfile);
+router.put('/update', authenticateUser, authcontroller.updateUserinfo);
 // Günlük kalori verilerini alma
 router.get('/dailycalories/:userId', authcontroller.getcalories);
 

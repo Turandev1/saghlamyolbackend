@@ -121,36 +121,60 @@ exports.getProfile = async (req, res) => {
 };
 
 // Profil güncelleme
-exports.updateProfile = async (req, res) => {
-  const { yas, boy, kilo, cinsiyet, hedefkilo, hedefkiloTipi, hedefkalori } =
-    req.body;
+exports.updateUserinfo = async (req, res) => {
+  const {
+    username,
+    email,
+    yas,
+    cinsiyet,
 
-  
+  } = req.body;
 
   if (!req.userId) {
     return res.status(401).json({ hata: "İstifadəçi doğrulama uğursuzdur" });
   }
 
-
   try {
     const user = await User.findById(req.userId);
     if (!user) return res.status(404).json({ hata: "İstifadəçi tapılmadı" });
 
+    // ✅ Kullanıcı adı zaten var mı kontrolü (kendisi hariç)
+    if (username && username !== user.username) {
+      const existingUser = await User.findOne({ username });
+      if (existingUser && existingUser._id.toString() !== req.userId) {
+        return res
+          .status(400)
+          .json({ hata: "Bu istifadəçi adı artıq mövcuddur" });
+      }
+      user.username = username;
+    }
+
+    // ✅ Email kontrolü – format ve benzersizlik (isteğe bağlı)
+    if (email && email !== user.email) {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(email)) {
+        return res
+          .status(400)
+          .json({ hata: "Zəhmət olmasa düzgün email daxil edin" });
+      }
+      user.email = email;
+    }
+
     if (yas !== undefined) user.yas = Number(yas);
-    if (boy !== undefined) user.boy = Number(boy);
-    if (kilo !== undefined) user.kilo = Number(kilo);
     if (cinsiyet !== undefined) user.cinsiyet = cinsiyet;
-    if (hedefkilo !== undefined) user.hedefkilo = Number(hedefkilo);
-    if (hedefkiloTipi !== undefined) user.hedefkiloTipi = hedefkiloTipi;
-    if (hedefkalori !== undefined) user.hedefkalori = Number(hedefkalori);
+    
 
     await user.save();
 
     res.status(200).json({ mesaj: "Profil yeniləndi", profil: user });
   } catch (err) {
+    console.error("Update hatası:", err);
     res.status(500).json({ hata: "Server xətası" });
   }
 };
+
+
+exports.updateuserpassword=async(req,res)=>{}
 
 
 // Kullanıcı verisini döndürme (TOKEN ile)
