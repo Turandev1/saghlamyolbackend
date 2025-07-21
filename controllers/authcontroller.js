@@ -175,10 +175,10 @@ exports.updateUserinfo = async (req, res) => {
 
 
 exports.updateuserpassword = async (req, res) => {
-  const { currentpassword, newpassword } = req.body
+  const { currentPassword, newPassword } = req.body
   
 
-  if (!currentpassword || !newpassword) {
+  if (!currentPassword || !newPassword) {
     return res.status(400).json({ hata: 'Köhne və yeni şifrələr məcburidir' })
   }
 
@@ -194,12 +194,12 @@ exports.updateuserpassword = async (req, res) => {
       return res.status(401).json({ hata: 'Istifadəçi tapilmadi' })
     }
 
-    const ismatch = await bcrypt.compare(currentpassword, user.password)
+    const ismatch = await bcrypt.compare(currentPassword, user.password)
     if (!ismatch) {
       return res.status(401).json({hata :'Mövcud şifrə yanlışdır'})
     }
 
-    const hashednewpassword = await bcrypt.hash(newpassword, 10)
+    const hashednewpassword = await bcrypt.hash(newPassword, 10)
     user.password = hashednewpassword
    await user.save()
 

@@ -14,7 +14,7 @@ router.post('/profile', authenticateUser, authcontroller.updateUserinfo);
 // Kullanıcı var mı diye kontrol et
 router.get('/me', authenticateUser, authcontroller.getMe);
 router.put('/update', authenticateUser, authcontroller.updateUserinfo);
-router.put('/update',authenticateUser,authcontroller.updateuserpassword)
+router.put('/updatepassword',authenticateUser,authcontroller.updateuserpassword)
 // Günlük kalori verilerini alma
 router.get('/dailycalories/:userId', authcontroller.getcalories);
 
