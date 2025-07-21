@@ -174,7 +174,41 @@ exports.updateUserinfo = async (req, res) => {
 };
 
 
-exports.updateuserpassword=async(req,res)=>{}
+exports.updateuserpassword = async (req, res) => {
+  const { currentpassword, newpassword } = req.body
+  
+
+  if (!currentpassword || !newpassword) {
+    return res.status(400).json({ hata: 'Köhne və yeni şifrələr məcburidir' })
+  }
+
+  if (!req.userId) {
+    return res.status(401).json({ hata: 'Istifadəçi dogrulama ugursuzdur' })
+  }
+
+
+
+  try {
+    const user = await User.findById(req.userId)
+    if (!user) {
+      return res.status(401).json({ hata: 'Istifadəçi tapilmadi' })
+    }
+
+    const ismatch = await bcrypt.compare(currentpassword, user.password)
+    if (!ismatch) {
+      return res.status(401).json({hata :'Mövcud şifrə yanlışdır'})
+    }
+
+    const hashednewpassword = await bcrypt.hash(newpassword, 10)
+    user.password = hashednewpassword
+   await user.save()
+
+    return res.status(200).json({mesaj:'Şifrə uğurla yeniləndi'})
+  } catch (error) {
+    console.error("Şifrə yeniləmə xətasi", error);
+    res.status(500).json({hata:'Server xetasi bas verdi'})
+  }
+}
 
 
 // Kullanıcı verisini döndürme (TOKEN ile)
