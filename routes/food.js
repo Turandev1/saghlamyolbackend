@@ -21,7 +21,7 @@ router.post("/add", async (req, res) => {
       glisemikIndeks: food.glisemikIndeks,
       resimUrl: food.resimUrl,
       besindegerleri: {
-        basemiqdar:food.besindegerleri.basemiqdar,
+        nasa:food.besindegerleri.basemiqdar,
         kalori: {
           miktar: food.besindegerleri.kalori.miktar * oran,
           birim: food.besindegerleri.kalori.birim,
