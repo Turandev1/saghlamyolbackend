@@ -258,7 +258,7 @@ exports.deletefood = async (req, res) => {
       const initiallength = day.entries.length
       day.entries = day.entries.filter((entry) => entry._id.toString() !== id)
       
-      if (day.entries < initiallength) {
+      if (day.entries.length < initiallength) {
         deleted = true
         break
       }
