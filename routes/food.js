@@ -11,10 +11,12 @@ router.post("/add", async (req, res) => {
     const food = await Food.findById(foodId);
     if (!food) return res.status(404).json({ message: "Yiyecek bulunamadı." });
 
-    const oran = parseFloat(miktar);
+    const miqdar = parseFloat(miktar);
+    const qidaninqrami = selectedPorsiyon.miktar
+    const oran=(miqdar* qidaninqrami)/100
 
     const scaledEntry = {
-      miktar: oran,
+      miktar: miqdar,
       porsiyon: selectedPorsiyon,
       yiyecekadi: food.yiyecekadi,
       kategori: food.kategori,
