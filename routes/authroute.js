@@ -17,5 +17,6 @@ router.put('/update', authenticateUser, authcontroller.updateUserinfo);
 router.put('/updatepassword',authenticateUser,authcontroller.updateuserpassword)
 // Günlük kalori verilerini alma
 router.get('/dailycalories/:userId', authcontroller.getcalories);
+router.delete('/dailycalories/:userId/deletefood/:id',authcontroller.deletefood)
 
 module.exports = router;

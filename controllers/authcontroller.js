@@ -240,3 +240,42 @@ exports.getcalories = async (req, res) => {
   }
 };
 
+
+
+exports.deletefood = async (req, res) => {
+  const { userId, id } = req.params
+  try {
+    const user = await User.findById(userId)
+    
+    if (!user) {
+      return res.status(404).json({ message: "Istifadeci tapilmadi" })
+    }
+
+
+    let deleted = false
+    for (let i = 0; i < user.dailycalories.length; i++){
+      const day = user.dailycalories[i]
+      const initiallength = day.entries.length
+      day.entries = day.entries.filter((entry) => entry._id.toString() !== id)
+      
+      if (day.entries < initiallength) {
+        deleted = true
+        break
+      }
+    }
+
+
+    if (!deleted) {
+      return res.status(404).json({hata:"Qida qeydi tapilmadi"})
+    }
+
+
+    await user.save()
+
+    res.status(200).json({message:"Qida ugurla silindi"})
+
+  } catch (error) {
+    console.error("Silinerken xeta bas verdi", error);
+    res.status(500).json({message:"Server xetasi"})
+  }
+}

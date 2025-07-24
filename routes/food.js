@@ -54,11 +54,8 @@ router.post("/add", async (req, res) => {
     };
 
     const today = moment().format("YYYY-MM-DD");
-
     const user = await User.findById(userId);
-
     const existingDay = user.dailycalories.find((item) => item.tarih === today);
-
     if (existingDay) {
       existingDay.entries.push(scaledEntry);
     } else {
@@ -67,9 +64,7 @@ router.post("/add", async (req, res) => {
         entries: [scaledEntry],
       });
     }
-
     await user.save();
-
     res.status(200).json({ message: "Yiyecek başarıyla eklendi." });
   } catch (error) {
     console.error("Sunucu hatası:", error);
