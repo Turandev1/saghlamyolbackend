@@ -6,7 +6,7 @@ const moment = require("moment"); // tarihi düzgün almak için
 
 router.post("/add", async (req, res) => {
   try {
-    const { userId, foodId, miktar, selectedPorsiyon } = req.body;
+    const { userId, foodId, miktar, selectedPorsiyon,nasa } = req.body;
 
     const food = await Food.findById(foodId);
     if (!food) return res.status(404).json({ message: "Yiyecek bulunamadı." });
