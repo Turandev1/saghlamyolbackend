@@ -19,6 +19,7 @@ const makrobesinschema = new mongoose.Schema({
 });
 
 const besindegerlerischema = new mongoose.Schema({
+  basemiqdar:{type:Number,required:true, default:100},
   kalori: altbilesenschema,
   makrobesinler: makrobesinschema,
   vitaminler: [{ ad: String, miktar: Number, birim: String }],
