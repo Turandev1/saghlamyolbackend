@@ -44,7 +44,7 @@ const yiyecekschema = new mongoose.Schema({
   // Yeni eklenen glisemik indeks alanı
   glisemikIndeks: {
     type: String,
-    enum: ["dusuk", "orta", "yuksek", null], // Allow these values or null if not applicable
+    enum: ["Aağı", "Orta", "Yüksək", null], // Allow these values or null if not applicable
     default: null,
   },
   olusturulmatarihi: Date,
