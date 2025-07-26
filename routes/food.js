@@ -75,7 +75,7 @@ router.post("/add", async (req, res) => {
 
 
 
-router.put("/updatefood/:entryId/:date", async (req, res) => {
+router.put("/updatefood/:date/:entryId/", async (req, res) => {
   try {
     const { userId, miktar, selectedPorsiyon } = req.body;
     const { entryId, date } = req.params;
