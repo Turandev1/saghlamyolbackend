@@ -75,56 +75,64 @@ router.post("/add", async (req, res) => {
 
 
 
-
-
-
-
-
 router.put("/updatefood/:entryId/:date", async (req, res) => {
   try {
     const { userId, miktar, selectedPorsiyon } = req.body;
     const { entryId, date } = req.params;
 
-    const user = await User.findById(userId);
-    if (!user)
-      return res.status(404).json({ message: "İstifadəçi tapılmadı." });
+    console.log("📥 PUT /updatefood request alındı");
+    console.log("➡️ Params:", { entryId, date });
+    console.log("➡️ Body:", { userId, miktar, selectedPorsiyon });
 
-    // Gelen tarihi doğrula ve formatla
+    const user = await User.findById(userId);
+    if (!user) {
+      console.warn("⚠️ İstifadəçi tapılmadı:", userId);
+      return res.status(404).json({ message: "İstifadəçi tapılmadı." });
+    }
+
     const formattedDate = moment(date, "YYYY-MM-DD", true);
     if (!formattedDate.isValid()) {
-      return res
-        .status(400)
-        .json({
-          message: "Tarix düzgün formatda deyil (YYYY-MM-DD olmalıdır).",
-        });
+      console.warn("⚠️ Daxil edilən tarix düzgün formatda deyil:", date);
+      return res.status(400).json({
+        message: "Tarix düzgün formatda deyil (YYYY-MM-DD olmalıdır).",
+      });
     }
 
     const dateStr = formattedDate.format("YYYY-MM-DD");
 
     const dayEntry = user.dailycalories.find((d) => d.tarih === dateStr);
-    if (!dayEntry)
+    if (!dayEntry) {
+      console.warn("⚠️ Göstərilən tarixə aid məlumat tapılmadı:", dateStr);
       return res
         .status(404)
         .json({ message: "Bu tarixə aid məlumat tapılmadı." });
+    }
 
     const entryIndex = dayEntry.entries.findIndex(
       (e) => String(e._id) === entryId
     );
-    if (entryIndex === -1)
+    if (entryIndex === -1) {
+      console.warn("⚠️ Qida qeydi tapılmadı:", entryId);
       return res.status(404).json({ message: "Qida qeydi tapılmadı." });
+    }
 
     const existingEntry = dayEntry.entries[entryIndex];
 
-    // Eski entry'den yiyecek adıyla Food modelini bul
     const food = await Food.findOne({ yiyecekadi: existingEntry.yiyecekadi });
-    if (!food)
+    if (!food) {
+      console.warn(
+        "⚠️ Əsas qida məlumatı tapılmadı:",
+        existingEntry.yiyecekadi
+      );
       return res.status(404).json({ message: "Əsas qida məlumatı tapılmadı." });
+    }
 
     const miqdar = parseFloat(miktar);
     const qidaninqrami = selectedPorsiyon.miktar;
     const oran = (miqdar * qidaninqrami) / 100;
 
-    // Besin değerlerini tekrar hesapla
+    console.log("🔢 Hesablama oranı:", oran);
+
     const updatedEntry = {
       ...existingEntry,
       miktar: miqdar,
@@ -165,17 +173,16 @@ router.put("/updatefood/:entryId/:date", async (req, res) => {
     dayEntry.entries[entryIndex] = updatedEntry;
 
     await user.save();
+    console.log("✅ Qida uğurla yeniləndi:", entryId);
 
     res.status(200).json({ message: "Qida uğurla yeniləndi." });
   } catch (error) {
-    console.error("Qida yenilənərkən xəta:", error);
+    console.error("❌ Qida yenilənərkən xəta baş verdi:", error);
     res.status(500).json({ message: "Server xətası." });
   }
 });
 
-
-
-
+module.exports = router;
 
 
 module.exports = router;
