@@ -2,6 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 require("dotenv").config(); // Load environment variables first
+require('./ping')
 const path = require("path");
 const {
   upload,
