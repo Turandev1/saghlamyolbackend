@@ -123,7 +123,6 @@ exports.verifyEmail = async (req, res) => {
   }
 };
 
-
 // Giriş
 exports.login = async (req, res) => {
   const { email, password } = req.body;
@@ -196,7 +195,17 @@ exports.getProfile = async (req, res) => {
 
 // Profil güncelleme
 exports.updateUserinfo = async (req, res) => {
-  const { username, email, yas, cinsiyet } = req.body;
+  const {
+    username,
+    email,
+    yas,
+    kilo,
+    boy,
+    hedefkilo,
+    hedefkiloTipi,
+    hedefkalori,
+    cinsiyet,
+  } = req.body;
 
   if (!req.userId) {
     return res.status(401).json({ hata: "İstifadəçi doğrulama uğursuzdur" });
@@ -227,9 +236,13 @@ exports.updateUserinfo = async (req, res) => {
       }
       user.email = email;
     }
-
     if (yas !== undefined) user.yas = Number(yas);
     if (cinsiyet !== undefined) user.cinsiyet = cinsiyet;
+    if (boy !== undefined) user.boy = Number(boy);
+    if (kilo !== undefined) user.kilo = Number(kilo);
+    if (hedefkilo !== undefined) user.hedefkilo = Number(hedefkilo);
+    if (hedefkalori !== undefined) user.hedefkalori = Number(hedefkalori);
+    if (hedefkiloTipi !== undefined) user.hedefkiloTipi = hedefkiloTipi;
 
     await user.save();
 
