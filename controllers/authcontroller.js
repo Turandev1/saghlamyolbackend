@@ -59,7 +59,6 @@ exports.signup = async (req, res) => {
   });
 
   const verifyUrl = `https://saghlamyolbackend.onrender.com/api/auth/verify-email?token=${token}`;
-  console.log("Doğrulama linki:", verifyUrl);
 
   const transporter = nodemailer.createTransport({
     service: "Gmail",
@@ -306,6 +305,19 @@ exports.getcalories = async (req, res) => {
     if (!user) return res.status(404).json({ message: "İstifadəçi tapılmadı" });
 
     res.json(user.dailycalories);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server xətası" });
+  }
+};
+
+exports.getwater = async (req, res) => {
+  try {
+    const user = await User.findById(req.params.userId);
+
+    if (!user) return res.status(404).json({ message: "İstifadəçi tapılmadı" });
+
+    res.json(user.dailywater);
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Server xətası" });

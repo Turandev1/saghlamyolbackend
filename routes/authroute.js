@@ -23,6 +23,7 @@ router.put(
 );
 // Günlük kalori verilerini alma
 router.get("/dailycalories/:userId", authcontroller.getcalories);
+router.get("/dailywater/:userId", authcontroller.getwater);
 router.delete(
   "/dailycalories/:userId/deletefood/:id",
   authcontroller.deletefood

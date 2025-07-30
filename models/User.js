@@ -5,7 +5,7 @@ const userschema = new mongoose.Schema(
     username: { type: String, required: true, unique: true },
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
-    verified:{type:Boolean,default:false},
+    verified: { type: Boolean, default: false },
     yas: { type: Number, default: 0 },
     cinsiyet: { type: String, enum: ["erkek", "kadin", null], default: null },
     boy: { type: Number, default: 0 },
@@ -67,6 +67,19 @@ const userschema = new mongoose.Schema(
                   birim: String,
                 },
               ],
+            },
+          },
+        ],
+      },
+    ],
+    dailywater: [
+      {
+        tarih: { type: String }, // "2025-07-14" formatında saklanacak
+        entries: [
+          {
+            su: {
+              miktar: Number, // Su miktarı (ml cinsinden)
+              birim: { type: String, default: "ml" }, // Birim (varsayılan olarak ml)
             },
           },
         ],
