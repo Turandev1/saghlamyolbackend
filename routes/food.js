@@ -55,8 +55,6 @@ router.post("/add", async (req, res) => {
       },
     };
 
-
-
     const today = moment().format("YYYY-MM-DD");
     const user = await User.findById(userId);
     const existingDay = user.dailycalories.find((item) => item.tarih === today);
@@ -77,45 +75,6 @@ router.post("/add", async (req, res) => {
     res.status(500).json({ message: "Sunucu hatası." });
   }
 });
-
-
-
-
-
-router.post("/addwater/:userId", async (req, res) => {
-  try {
-    const { su, tarih } = req.body;
-    const { userId } = req.params;
-
-    
-    if (!su || typeof su.miktar !== "number" || !su.birim) {
-      return res.status(400).json({ message: "Geçersiz su bilgisi." });
-    }
-    
-    const user = await User.findById(userId);
-    if (!user)
-      return res.status(404).json({ message: "Kullanıcı bulunamadı." });
-    
-    const existingDay = user.dailywater.find((item) => item.tarih === tarih);
-
-    if (existingDay) {
-      existingDay.entries.push({ su });
-    } else {
-      user.dailywater.push({
-        tarih,
-        entries: [{ su }],
-      });
-    }
-    if (!userId) return res.status(400).json({ message: "userId eksik." });
-
-    await user.save();
-    res.status(200).json({ message: "Su verisi başarıyla eklendi." });
-  } catch (error) {
-    console.error("Sunucu hatası:", error);
-    res.status(500).json({ message: "Sunucu hatası." });
-  }
-});
-
 
 
 

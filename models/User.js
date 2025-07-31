@@ -72,19 +72,6 @@ const userschema = new mongoose.Schema(
         ],
       },
     ],
-    dailywater: [
-      {
-        tarih: { type: String }, // "2025-07-14" formatında saklanacak
-        entries: [
-          {
-            su: {
-              miktar: Number, // Su miktarı (ml cinsinden)
-              birim: { type: String, default: "ml" }, // Birim (varsayılan olarak ml)
-            },
-          },
-        ],
-      },
-    ],
   },
   { timestamps: true }
 );

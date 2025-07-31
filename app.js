@@ -19,6 +19,7 @@ if (!upload || !uploadSingleFile || !listImages) {
 const yiyecekRoutes = require("./controllers/foods");
 const authRoutes = require("./routes/authroute");
 const trackfoods = require("./routes/food");
+const approutes=require('./routes/approute')
 
 const app = express();
 
@@ -54,7 +55,7 @@ app.use("/api/yiyecekler", yiyecekRoutes);
 
 // Kimlik doğrulama için API rotaları
 app.use("/api/auth", authRoutes);
-
+app.use('/api/app', approutes)
 // ----- DÜZELTİLMİŞ FOTOĞRAF YÜKLEME ROTALARI -----
 // Artık 'upload', 'uploadFile', 'getFiles' ve 'getImageByName'
 // doğrudan tanındığı için yalın halde kullanılabilir.

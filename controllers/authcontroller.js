@@ -311,18 +311,6 @@ exports.getcalories = async (req, res) => {
   }
 };
 
-exports.getwater = async (req, res) => {
-  try {
-    const user = await User.findById(req.params.userId);
-
-    if (!user) return res.status(404).json({ message: "İstifadəçi tapılmadı" });
-
-    res.json(user.dailywater);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Server xətası" });
-  }
-};
 
 exports.deletefood = async (req, res) => {
   const { userId, id } = req.params;
