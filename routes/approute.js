@@ -4,3 +4,5 @@ const appcontroller = require('../controllers/appcontroller');
 
 
 router.get('/version', appcontroller.getversion)
+
+module.exports = router;
