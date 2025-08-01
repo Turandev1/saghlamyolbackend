@@ -301,6 +301,7 @@ exports.getMe = async (req, res) => {
 exports.getcalories = async (req, res) => {
   try {
     const user = await User.findById(req.params.userId);
+    console.log("User found:", req.params.userId);
 
     if (!user) return res.status(404).json({ message: "İstifadəçi tapılmadı" });
 
@@ -316,6 +317,7 @@ exports.deletefood = async (req, res) => {
   const { userId, id } = req.params;
   try {
     const user = await User.findById(userId);
+    console.log("User found:", userId);
 
     if (!user) {
       return res.status(404).json({ message: "Istifadeci tapilmadi" });

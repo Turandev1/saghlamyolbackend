@@ -7,7 +7,10 @@ const moment = require("moment");
 router.post("/add", async (req, res) => {
   try {
     const { userId, foodId, miktar, selectedPorsiyon, su } = req.body;
+    console.log("Gelen userId:", userId); // Bunu ekle
 
+    const cleanUserId = userId.replace(/"/g, "");
+    console.log("Temizlenmiş userId:", cleanUserId);
     const food = await Food.findById(foodId);
     if (!food) return res.status(404).json({ message: "Yiyecek bulunamadı." });
 
@@ -56,9 +59,16 @@ router.post("/add", async (req, res) => {
     };
 
     const today = moment().format("YYYY-MM-DD");
-    const user = await User.findById(userId);
+    const user = await User.findById(cleanUserId);
+    console.log("User ID:", userId);
+    if (!user) {
+      console.error("❌ Kullanıcı bulunamadı veritabanında:", userId);
+      return res.status(404).json({ message: "Kullanıcı tapılmadı" });
+    } else {
+      console.log("✅ Kullanıcı bulundu:", user._id);
+    }
     const existingDay = user.dailycalories.find((item) => item.tarih === today);
-
+    console.log("Existing day:", existingDay);
     if (existingDay) {
       existingDay.entries.push(scaledEntry);
     } else {
@@ -75,7 +85,5 @@ router.post("/add", async (req, res) => {
     res.status(500).json({ message: "Sunucu hatası." });
   }
 });
-
-
 
 module.exports = router;

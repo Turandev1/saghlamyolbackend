@@ -7,7 +7,7 @@ const userschema = new mongoose.Schema(
     password: { type: String, required: true },
     verified: { type: Boolean, default: false },
     yas: { type: Number, default: 0 },
-    cinsiyet: { type: String, enum: ["erkek", "kadin", null], default: null },
+    cinsiyet: { type: String, enum: ["erkek", "kadin"], required: false },
     boy: { type: Number, default: 0 },
     kilo: { type: Number, default: 0 },
     hedefkilo: { type: Number, default: 0 },
