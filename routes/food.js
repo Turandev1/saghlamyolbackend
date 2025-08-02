@@ -60,6 +60,7 @@ router.post("/add", async (req, res) => {
 
     const today = moment().format("YYYY-MM-DD");
     const user = await User.findById(cleanUserId);
+    console.log('User',user)
     console.log("User ID:", userId);
     if (!user) {
       console.error("❌ Kullanıcı bulunamadı veritabanında:", userId);
