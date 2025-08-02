@@ -6,6 +6,7 @@ const nodemailer = require("nodemailer");
 // Kayıt
 exports.signup = async (req, res) => {
   const {
+    name,
     username,
     email,
     password,
@@ -39,6 +40,7 @@ exports.signup = async (req, res) => {
   const hashedPassword = await bcrypt.hash(password, 10);
 
   const newUser = new User({
+    name,
     username,
     email,
     password: hashedPassword,
