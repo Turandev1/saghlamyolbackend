@@ -42,7 +42,8 @@ const yiyecekschema = new mongoose.Schema({
   besindegerleri: besindegerlerischema,
   resimUrl: String,
   // Yeni eklenen glisemik indeks alanı
-  xolesterol: { type: Number, required: false}, // Xolesterol miktarı, varsayılan olarak null
+  xolesterol: { type: Number, required: false }, // Xolesterol miktarı, varsayılan olarak null
+  aciqlama:{type:String,default:"",required:false},
   glisemikIndeks: {
     type: String,
     enum: ['Yoxdur',"Aşağı", "Orta", "Yüksək"], // Allow these values or null if not applicable
