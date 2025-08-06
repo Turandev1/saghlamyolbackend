@@ -51,7 +51,7 @@ exports.signup = async (req, res) => {
     hedefkilo,
     hedefkiloTipi,
     hedefkalori,
-    verified: false, // başlangıçta false
+    // verified: false, // başlangıçta false
   });
 
   await newUser.save();
@@ -60,69 +60,69 @@ exports.signup = async (req, res) => {
     expiresIn: "1h",
   });
 
-  const verifyUrl = `https://saghlamyolbackend.onrender.com/api/auth/verify-email?token=${token}`;
+  //   const verifyUrl = `https://saghlamyolbackend.onrender.com/api/auth/verify-email?token=${token}`;
 
-  const transporter = nodemailer.createTransport({
-    service: "Gmail",
-    auth: {
-      user: process.env.GMAIL_USER,
-      pass: process.env.GMAIL_PASS,
-    },
-  });
+  //   const transporter = nodemailer.createTransport({
+  //     service: "Gmail",
+  //     auth: {
+  //       user: process.env.GMAIL_USER,
+  //       pass: process.env.GMAIL_PASS,
+  //     },
+  //   });
 
-  const mailOptions = {
-    from: process.env.GMAIL_USER,
-    to: email,
-    subject: "Email Doğrulama",
-    html: `<p>Qeydiyyatınızı tamamlamaq üçün aşağıdakı linkə klikləyin:</p><a href="${verifyUrl}">Emaili Təsdiqlə</a>`,
-  };
+  //   const mailOptions = {
+  //     from: process.env.GMAIL_USER,
+  //     to: email,
+  //     subject: "Email Doğrulama",
+  //     html: `<p>Qeydiyyatınızı tamamlamaq üçün aşağıdakı linkə klikləyin:</p><a href="${verifyUrl}">Emaili Təsdiqlə</a>`,
+  //   };
 
-  try {
-    await transporter.sendMail(mailOptions);
-    return res
-      .status(200)
-      .json({ mesaj: "Doğrulama linki email hesabınıza göndərildi" });
-  } catch (error) {
-    console.error("Email göndərmə xətası:", error);
-    return res.status(500).json({ hata: "Email göndərilərkən xəta baş verdi" });
-  }
-};
+  //   try {
+  //     await transporter.sendMail(mailOptions);
+  //     return res
+  //       .status(200)
+  //       .json({ mesaj: "Doğrulama linki email hesabınıza göndərildi" });
+  //   } catch (error) {
+  //     console.error("Email göndərmə xətası:", error);
+  //     return res.status(500).json({ hata: "Email göndərilərkən xəta baş verdi" });
+  //   }
+  // };
+}
+// //verify
+// exports.verifyEmail = async (req, res) => {
+//   const { token } = req.query;
 
-//verify
-exports.verifyEmail = async (req, res) => {
-  const { token } = req.query;
+//   if (!token) {
+//     return res.status(400).json({ hata: "Token tələb olunur" });
+//   }
 
-  if (!token) {
-    return res.status(400).json({ hata: "Token tələb olunur" });
-  }
+//   try {
+//     const decoded = jwt.verify(token, process.env.JWT_SECRET);
+//     const { email } = decoded;
 
-  try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const { email } = decoded;
+//     const user = await User.findOne({ email });
 
-    const user = await User.findOne({ email });
+//     if (!user) {
+//       return res.status(404).json({ hata: "İstifadəçi tapılmadı" });
+//     }
 
-    if (!user) {
-      return res.status(404).json({ hata: "İstifadəçi tapılmadı" });
-    }
+//     if (user.verified) {
+//       return res.status(400).json({ hata: "Email artıq təsdiqlənib" });
+//     }
 
-    if (user.verified) {
-      return res.status(400).json({ hata: "Email artıq təsdiqlənib" });
-    }
+//     user.verified = true;
+//     await user.save();
 
-    user.verified = true;
-    await user.save();
-
-    return res
-      .status(200)
-      .json({ mesaj: "Email təsdiqləndi, qeydiyyat tamamlandı" });
-  } catch (error) {
-    console.error("Token doğrulama xətası:", error);
-    return res
-      .status(400)
-      .json({ hata: "Token etibarsız və ya vaxtı keçmişdir" });
-  }
-};
+//     return res
+//       .status(200)
+//       .json({ mesaj: "Email təsdiqləndi, qeydiyyat tamamlandı" });
+//   } catch (error) {
+//     console.error("Token doğrulama xətası:", error);
+//     return res
+//       .status(400)
+//       .json({ hata: "Token etibarsız və ya vaxtı keçmişdir" });
+//   }
+// };
 
 // Giriş
 exports.login = async (req, res) => {
@@ -142,11 +142,11 @@ exports.login = async (req, res) => {
     }
 
     // 📌 Email təsdiqlənməyibsə
-    if (!user.verified) {
-      return res.status(403).json({
-        hata: "Email hələ təsdiqlənməyib. Zəhmət olmasa email adresinizi yoxlayın.",
-      });
-    }
+    // if (!user.verified) {
+    //   return res.status(403).json({
+    //     hata: "Email hələ təsdiqlənməyib. Zəhmət olmasa email adresinizi yoxlayın.",
+    //   });
+    // }
 
     // 📌 Parolun doğruluğunu yoxla
     const isMatch = await bcrypt.compare(password, user.password);

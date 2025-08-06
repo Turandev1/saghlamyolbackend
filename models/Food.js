@@ -28,6 +28,7 @@ const besindegerlerischema = new mongoose.Schema({
     {
       ad: { type: String, required: false },
       miktar: { type: Number, required: false },
+      birim: { type: String, required: false },
       malzemeresmi: { type: String, required: false}, // Malzeme resmi varsayılan olarak "g"
     },
   ],
