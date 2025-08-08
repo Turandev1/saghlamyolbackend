@@ -2,24 +2,14 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 require("dotenv").config(); // Load environment variables first
-require('./ping')
+require("./ping");
 const path = require("path");
-const {
-  upload,
-  uploadSingleFile,
-  listImages,
-} = require("./controllers/uploadfotocontroller");
-
-// Check if required upload controller functions exist
-if (!upload || !uploadSingleFile || !listImages) {
-  throw new Error("uploadfotocontroller.js must export 'upload', 'uploadSingleFile', and 'listImages'");
-}
 
 // --- Rotaları içeri aktarma ---
 const yiyecekRoutes = require("./controllers/foods");
 const authRoutes = require("./routes/authroute");
 const trackfoods = require("./routes/food");
-const approutes=require('./routes/approute')
+const approutes = require("./routes/approute");
 
 const app = express();
 
@@ -28,7 +18,7 @@ const app = express();
 app.use(
   cors({
     origin: "*", // Her yerden isteklere izin ver
-    methods: ["GET", "POST","PATCH", "PUT", "DELETE"], // İzin verilen HTTP metotları
+    methods: ["GET", "POST", "PATCH", "PUT", "DELETE"], // İzin verilen HTTP metotları
   })
 );
 
@@ -55,7 +45,7 @@ app.use("/api/yiyecekler", yiyecekRoutes);
 
 // Kimlik doğrulama için API rotaları
 app.use("/api/auth", authRoutes);
-app.use('/api/app', approutes)
+app.use("/api/app", approutes);
 // ----- DÜZELTİLMİŞ FOTOĞRAF YÜKLEME ROTALARI -----
 // Artık 'upload', 'uploadFile', 'getFiles' ve 'getImageByName'
 // doğrudan tanındığı için yalın halde kullanılabilir.
