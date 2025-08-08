@@ -46,16 +46,8 @@ app.use("/api/yiyecekler", yiyecekRoutes);
 // Kimlik doğrulama için API rotaları
 app.use("/api/auth", authRoutes);
 app.use("/api/app", approutes);
-// ----- DÜZELTİLMİŞ FOTOĞRAF YÜKLEME ROTALARI -----
-// Artık 'upload', 'uploadFile', 'getFiles' ve 'getImageByName'
-// doğrudan tanındığı için yalın halde kullanılabilir.
-
-// @route POST /upload
-// @desc Tek bir dosya yükler
-app.use("/uploads", express.static("uploads"));
 
 // Yükleme endpointleri
-app.post("/upload", upload.single("file"), uploadSingleFile);
 app.get("/images", listImages);
 // Sunucu portunu tanımla
 
