@@ -47,10 +47,6 @@ app.use("/api/yiyecekler", yiyecekRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/app", approutes);
 
-// Yükleme endpointleri
-app.get("/images", listImages);
-// Sunucu portunu tanımla
-
 //kullanici gida ekleme
 app.use("/api/food", trackfoods);
 const PORT = process.env.PORT || 8080;
