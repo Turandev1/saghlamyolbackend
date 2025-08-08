@@ -11,7 +11,7 @@ router.get("/profile", authenticateUser, authcontroller.getProfile);
 router.post("/profile", authenticateUser, authcontroller.updateUserinfo);
 
 // Kullanıcı var mı diye kontrol et
-router.get("/me", authenticateUser, authcontroller.getMe);
+router.get("/me", authenticateUser, authcontroller.getme);
 router.put("/update", authenticateUser, authcontroller.updateUserinfo);
 router.put(
   "/updatepassword",
