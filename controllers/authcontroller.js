@@ -57,6 +57,10 @@ exports.signup = async (req, res) => {
   const token = jwt.sign({ email }, process.env.JWT_SECRET, {
     expiresIn: "1h",
   });
+
+  return res
+    .status(201)
+    .json({ message: "Qeydiyyat uğurla tamamlandı", token });
 };
 
 // Giriş
