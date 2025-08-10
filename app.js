@@ -12,7 +12,7 @@ const trackfoods = require("./routes/food");
 const approutes = require("./routes/approute");
 
 const app = express();
-app.use('/uploads',express.static(path.join(__dirname, "public")));
+app.use('/uploads',express.static(path.join(__dirname, "uploads")));
 
 
 // --- Middleware'ler ---
