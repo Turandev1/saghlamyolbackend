@@ -22,6 +22,7 @@ const userschema = new mongoose.Schema(
     dailycalories: [
       {
         tarih: { type: String }, // "2025-07-14" formatında saklanacak
+        gun: { type: String }, // "Bzr", "B.e", "Ç.a", "Çər", "C.a", "Cüm", "Şnb"
         entries: [
           {
             miktar: Number,
