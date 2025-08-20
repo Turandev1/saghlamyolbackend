@@ -59,8 +59,8 @@ router.post("/add", async (req, res) => {
     const today = moment().format("YYYY-MM-DD");
     const user = await User.findById(cleanUserId);
     const todayy = new Date();
-    const days = ["Bzr", "B.e", "Ç.a", "Çər", "C.a", "Cüm", "Şən"];
-    const dayname = days[todayy.getDay()];
+    const shortDays = ["Bzr", "B.e", "Ç.a", "Çər", "C.a", "Cüm", "Şnb"];
+    const dayname = shortDays[todayy.getDay()];
     if (!user) {
       console.error("❌ Kullanıcı bulunamadı veritabanında:", userId);
       return res.status(404).json({ message: "Kullanıcı tapılmadı" });
