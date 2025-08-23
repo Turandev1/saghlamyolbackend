@@ -245,6 +245,47 @@ exports.getcalories = async (req, res) => {
   }
 };
 
+exports.getweeklyfooddetails = async (req, res) => {
+  try {
+    const { userId } = req.params
+    const { week } = req.query
+    
+    const user = await User.findById(userId)
+    if (!user) return res.status(404).json({ error: 'Istifadəçi tapılmadı' })
+    
+
+    const now = week ? new Date(week) : new Date();
+    
+    const startofweek = new Date(now);
+    const day = startofweek.getDay()
+    const diff = day === 0 ? -6 : 1 - day
+    startofweek.setDate(startofweek.getDate() + diff)
+    startofweek.setHours(0, 0, 0, 0)
+
+
+    const endofweek = new Date(startofweek);
+    endofweek.setDate(endofweek.getDate() + 6);
+    endofweek.setHours(23, 59, 59, 999);
+
+
+    const weeklydata = user.dailycalories.filter((dc) => {
+      const tarih = new Date(dc.tarih);
+      return tarih >= startofweek && tarih <= endofweek;
+    })
+
+    res.json({
+      weekStart: startofweek.toISOString().split("T")[0],
+      weekEnd: endofweek.toISOString().split("T")[0],
+      data: weeklydata,
+    })
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({error:err.message });
+  }
+}
+
+
+
 exports.deletefood = async (req, res) => {
   const { userId, id } = req.params;
   try {

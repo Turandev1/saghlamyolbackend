@@ -18,11 +18,16 @@ router.put(
   authenticateUser,
   authcontroller.updateuserpassword
 );
+router.post("/deleteaccount", authenticateUser, authcontroller.deleteaccount);
+
+
+
+
 // Günlük kalori verilerini alma
 router.get("/dailycalories/:userId", authcontroller.getcalories);
+router.get('/:userId/weekly-calories',authenticateUser, authcontroller.getweeklyfooddetails)
 router.delete(
   "/dailycalories/:userId/deletefood/:id",
   authcontroller.deletefood
 );
-router.post("/deleteaccount", authenticateUser, authcontroller.deleteaccount);
 module.exports = router;
